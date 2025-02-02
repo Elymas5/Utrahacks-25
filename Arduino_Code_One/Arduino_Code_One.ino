@@ -165,10 +165,12 @@ void loop() {
     counter++;
     if(counter==5){
       myservo.write(130);
-      delay(700);
+      delay(500);
       myservo.write(-130);
-      delay(700);
-      myservo.write(90);
+      delay(500);
+      myservo.write(-90);
+      delay(1000);
+      myservo.write(0);
       delay(99999);
     }
   }

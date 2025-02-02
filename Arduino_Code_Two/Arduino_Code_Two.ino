@@ -6,7 +6,7 @@ Servo myservo;  // create servo object to control a servo
 
 #define TRIGGER_PIN  13  // Arduino pin tied to trigger pin on the ultrasonic sensor.
 #define ECHO_PIN     12  // Arduino pin tied to echo pin on the ultrasonic sensor.
-#define MAX_DISTANCE 50 // Maximum distance we want to ping for (in centimeters). Maximum sensor distance is rated at 400-500cm.
+#define MAX_DISTANCE 70 // Maximum distance we want to ping for (in centimeters). Maximum sensor distance is rated at 400-500cm.
 
 //Motors
 #define ENA 11   // Enable pin for Motor A
@@ -93,25 +93,11 @@ String detectColor() {
     }
 }
 
-void clawOn(bool state){
-  if(state==false){
-    myservo.write(130);
-    delay(1000);
-    myservo.write(0);
-  }else{
-    myservo.write(-130);
-    delay(1000);
-    myservo.write(0);
-  }
-}
-
 
 void setup() {
   delay(5000);
   // put your setup code here, to run once:
   Serial.begin(9600);
-  myservo.write(90);
-  myservo.attach(SERVO_PIN);
   pinMode(RED_PIN, OUTPUT);
 
   //Color Sensors
@@ -130,8 +116,6 @@ void setup() {
   pinMode(ENB, OUTPUT);
   pinMode(IN3, OUTPUT);
   pinMode(IN4, OUTPUT);
-
-  clawOn(true);
 }
 
 void loop() {
@@ -172,8 +156,9 @@ void loop() {
 
 void goTillWall(){
   while(true){
+    delay(200);
     distance = getDistance();
-    if(0<distance && distance<20){
+    if(0<distance && distance<30){
       digitalWrite(RED_PIN, HIGH);
       isDetecting = true;
       stopMotors();
@@ -200,9 +185,9 @@ void turnRight() {
    digitalWrite(IN2, LOW);
    digitalWrite(IN3, LOW);
    digitalWrite(IN4, HIGH);
-   analogWrite(ENA, 150); // Speed control (0-255)
-   analogWrite(ENB, 150);
-   delay(2000); // Adjust for 90-degree turn
+   analogWrite(ENA, 100); // Speed control (0-255)
+   analogWrite(ENB, 100);
+   delay(900); // Adjust for 90-degree turn
    stopMotors();
 }
 
@@ -211,9 +196,9 @@ void turnLeft() {
    digitalWrite(IN2, HIGH);
    digitalWrite(IN3, HIGH);
    digitalWrite(IN4, LOW);
-   analogWrite(ENA, 150); // Speed control (0-255)
-   analogWrite(ENB, 150);
-   delay(2000); // Adjust for 90-degree turn
+   analogWrite(ENA, 100); // Speed control (0-255)
+   analogWrite(ENB, 100);
+   delay(900); // Adjust for 90-degree turn
    stopMotors();
 }
 
@@ -222,9 +207,9 @@ void turnAround() {
    digitalWrite(IN2, LOW);
    digitalWrite(IN3, LOW);
    digitalWrite(IN4, HIGH);
-   analogWrite(ENA, 150); // Speed control (0-255)
-   analogWrite(ENB, 150);
-   delay(4000); // Adjust for 180-degree turn
+   analogWrite(ENA, 100); // Speed control (0-255)
+   analogWrite(ENB, 100);
+   delay(1800); // Adjust for 180-degree turn
    stopMotors();
 }
 
@@ -233,8 +218,8 @@ void moveForward() {
     digitalWrite(IN2, LOW);
     digitalWrite(IN3, HIGH);
     digitalWrite(IN4, LOW);
-    analogWrite(ENA, 200); // Speed control (0-255)
-    analogWrite(ENB, 200);
+    analogWrite(ENA, 125); // Speed control (0-255)
+    analogWrite(ENB, 125);
 }
 
 void moveBackward() {
