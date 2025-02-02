@@ -109,21 +109,23 @@ void clawOn(bool state){
 }
 
 int initialSearch(){
-  while(true){
-    turnLeft(300);
-    moveForward(300);
-    int detectedColor = detectColor();
-    if(detectedColor!=0){
-      return detectedColor;
-    }
+  turnLeft(1200);
+  moveForward(2000);
+  int detectedColor = detectColor();
+  if(detectedColor!=0){
+    return detectedColor;
+  }else{
+    turnAround();
+    moveForward(3000);
   }
 }
 
 
 void setup() {
+  delay(5000);
   // put your setup code here, to run once:
   Serial.begin(9600);
-  myservo.write(90);
+  //myservo.write(90);
   myservo.attach(SERVO_PIN);
   pinMode(RED_PIN, OUTPUT);
 
@@ -162,7 +164,11 @@ void loop() {
     colorTwo = detectedColor;
     counter++;
     if(counter==5){
-      clawOn(false);
+      myservo.write(130);
+      delay(700);
+      myservo.write(-130);
+      delay(700);
+      myservo.write(90);
       delay(99999);
     }
   }
